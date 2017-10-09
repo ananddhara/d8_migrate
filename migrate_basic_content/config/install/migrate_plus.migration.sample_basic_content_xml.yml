@@ -11,7 +11,7 @@ source:
   plugin: url
   data_fetcher_plugin: http
   data_parser_plugin: xml
-  urls: public://story2017.xml
+  urls: public://private_files/article/story2017.xml
   item_selector: '/articles/article' #xpath value
   ids:
     source_row_guid:
@@ -42,7 +42,7 @@ source:
     bool_1: 1
     uid_root: 1
     full_html: full_html
-    source_base_path: 'public://private_files'
+    source_base_path: 'public://private_files/'
     destination_base_path: 'public://'
 
 process:
@@ -51,23 +51,17 @@ process:
     default_value: article
   title: source_title
   body/value: source_summary
+  body/format: constants/full_html
   field_row_guid: source_row_guid
   field_url:
     -
       plugin: trim
       source: source_url
-#  field_image/0/target_id:
-#    plugin: assign_image
-#    source: source_image
-#  field_image/0/alt:
-#    plugin: default_value
-#    default_value: image alt
-#  field_image/0/title:
-#    plugin: default_value
-#    default_value: image title
   field_image:
       plugin: assign_image
       source: source_images
+      alt: AltText
+      title: caption
   uid:
     plugin: default_value
     default_value: 1

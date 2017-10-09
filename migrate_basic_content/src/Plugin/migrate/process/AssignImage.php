@@ -23,17 +23,30 @@ class AssignImage extends ProcessPluginBase {
    * {@inheritdoc}
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
+    $constants = $row->getSourceProperty('constants');
+    $this->configuration['constants'] = $constants;
+    // Process multiple and single image.
     if (isset($value->image)) {
       return $this->manage_multiple_images($value);
     }
     else {
       return $this->manage_single_image($value);
     }
+
   }
 
-  public function manage_multiple_images($value) {
+  /**
+   * Process Multiple images.
+   *
+   * @param array $images
+   *   Array containing image information.
+   *
+   * @return array
+   *   Returns file information.
+   */
+  public function manage_multiple_images($images) {
     $output = array();
-    foreach ($value as $key => $image ) {
+    foreach ($images as $key => $image ) {
       $name = trim($image->name);
       $fid = $this->get_file_fid($name);
       if (!$fid) {
@@ -45,7 +58,16 @@ class AssignImage extends ProcessPluginBase {
     }
     return $output;
   }
-  
+
+  /**
+   * Process single image.
+   *
+   * @param array $image
+   *   Array containing image information.
+   *
+   * @return array
+   *   Returns file information.
+   */
   public function manage_single_image($image) {
     $output = array();
     $name = trim($image->name);
@@ -62,28 +84,54 @@ class AssignImage extends ProcessPluginBase {
     return $output;
   }
 
+  /**
+   * Attach image related information.
+   *
+   * @param integer $fid
+   *   File fid of the image.
+   * @param object $image
+   *   Object containing image information.
+   *
+   * @return array
+   *   Returns array containing file information.
+   */
   public function attach_image_info ($fid, $image) {
-    $ftp_path = $image->FTPpath;
-    $name = trim($image->name);
-    $alt_text = $image->AltText;
-    $caption = trim($image->caption);
-    $credit = trim($image->credit);
-    $seo_file_name = trim($image->SEOFilename);
+    $alt_text = ($this->configuration['alt']) ? $image->{$this->configuration['alt']} : $image->AltText;
+    $title = ($this->configuration['title']) ? $image->{$this->configuration['title']} : $image->caption;
     $output = array('target_id' => $fid,
       'alt' => trim($alt_text),
-      'title' => trim($caption),
+      'title' => trim($title),
     );
     return $output;
   }
 
+  /**
+   * Create an image.
+   *
+   * @param type $name
+   *   Name of the image.
+   *
+   * @return integer
+   *   Returns file fid.
+   */
   public function create_image($name) {
-    $data = file_get_contents("public://private_files/" . $name);
-    $file = file_save_data($data, "public://" . $name, FILE_EXISTS_REPLACE);                                                                            $file->id();
+    $source_base_path = (isset($this->configuration['constants']['source_base_path'])) ? trim($this->configuration['constants']['source_base_path']) : 'public://private_files/';
+    $destination_base_path = (isset($this->configuration['constants']['destination_base_path'])) ? trim($this->configuration['constants']['destination_base_path']) : 'public://';
+    $data = file_get_contents($source_base_path . $name);
+    $file = file_save_data($data, $destination_base_path . $name, FILE_EXISTS_REPLACE);
     return $file->id();
   }
 
+  /**
+   * Get file information from the file_managed schema.
+   *
+   * @param string $filename
+   *   Name of the file.
+   *
+   * @return integer
+   *   Returns file fid if present.
+   */
   public function get_file_fid($filename) {
-    $fid = '';
     $filename = trim($filename);
     $query = \Drupal::database()->select('file_managed', 'p');
     $query->addField('p', 'fid');
