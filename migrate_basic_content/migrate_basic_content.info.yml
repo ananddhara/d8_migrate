@@ -1,0 +1,13 @@
+type: module
+name: Migrate Basic Content
+description: 'POC custom module for migrations for basic content.'
+package: Migration
+# core: 8.x
+dependencies:
+  - migrate_plus
+  - migrate_tools
+
+# Information added by Drupal.org packaging script on 2017-05-10
+version: '8.x'
+core: '8.x'
+project: 'migrate_basic_content'

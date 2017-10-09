@@ -1,0 +1,75 @@
+id: article_content_xml
+label: Article content XML
+langcode: en
+status: true
+migration_group: migrate_crain_xml
+dependencies:
+  enforced:
+    module:
+      - migrate_basic_content
+source:
+  plugin: url
+  data_fetcher_plugin: http
+  data_parser_plugin: xml
+  urls: public://story2017.xml
+  item_selector: '/articles/article' #xpath value
+  ids:
+    source_row_guid:
+      type: text
+  fields:
+    -
+      name: source_row_guid
+      label: 'Row guid'
+      selector: rowguid
+    -
+      name: source_title
+      label: 'Title of the article'
+      selector: title
+    -
+      name: source_summary
+      label: 'Summary of the article'
+      selector: summary
+    -
+      name: source_url
+      label: 'Url of the article'
+      selector: url
+    -
+      name: source_images
+      label: 'All Images'
+      selector: images
+  constants:
+    bool_0: 0
+    bool_1: 1
+    uid_root: 1
+    full_html: full_html
+    source_base_path: 'public://private_files'
+    destination_base_path: 'public://'
+
+process:
+  type:
+    plugin: default_value
+    default_value: article
+  title: source_title
+  body/value: source_summary
+  field_row_guid: source_row_guid
+  field_url:
+    -
+      plugin: trim
+      source: source_url
+#  field_image/0/target_id:
+#    plugin: assign_image
+#    source: source_image
+#  field_image/0/alt:
+#    plugin: default_value
+#    default_value: image alt
+#  field_image/0/title:
+#    plugin: default_value
+#    default_value: image title
+  field_image:
+      plugin: assign_image
+      source: source_images
+  uid:
+    plugin: default_value
+    default_value: 1
+destination:
+  plugin: 'entity:node'
