@@ -31,7 +31,10 @@ class ParagraphImport extends ProcessPluginBase {
           'type' => 'paragraph_test1_type',
           'field_index' => $value->index,
           'field_subheading' => $value->subheading,
-          'field_text' => $value->text,
+          'field_text' => [
+            'value' => $value->text,
+            'format' => 'full_html',
+          ],
         );
 
         $paragraph_value = Paragraph::create($para_values);
