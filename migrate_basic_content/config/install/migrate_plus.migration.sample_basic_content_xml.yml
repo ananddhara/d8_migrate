@@ -37,6 +37,10 @@ source:
       name: source_images
       label: 'All Images'
       selector: images
+    -
+      name: content_paragraph
+      label: 'Description of the content'
+      selector: paragraphs
   constants:
     bool_0: 0
     bool_1: 1
@@ -57,11 +61,14 @@ process:
     -
       plugin: trim
       source: source_url
+  field_paragraph:
+    plugin: paragraphs_import
+    source: content_paragraph
   field_image:
-      plugin: assign_image
-      source: source_images
-      alt: AltText
-      title: caption
+    plugin: assign_image
+    source: source_images
+    alt: AltText
+    title: caption
   uid:
     plugin: default_value
     default_value: 1
