@@ -41,6 +41,10 @@ source:
       name: content_paragraph
       label: 'Description of the content'
       selector: paragraphs
+    -
+      name: internal_article_links
+      label : 'Get internal links'
+      selector: InternalLinks
   constants:
     bool_0: 0
     bool_1: 1
@@ -69,6 +73,10 @@ process:
     source: source_images
     alt: AltText
     title: caption
+  field_article_reference:
+    plugin: link_articles
+    source: internal_article_links
+    link_table: migrate_map_article_content_xml
   uid:
     plugin: default_value
     default_value: 1
