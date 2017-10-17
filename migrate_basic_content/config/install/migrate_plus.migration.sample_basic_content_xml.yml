@@ -73,6 +73,11 @@ process:
     source: source_images
     alt: AltText
     title: caption
+  field_image_bundle:
+    plugin: image_media_bundle
+    source: source_images
+    alt: AltText
+    title: caption
   field_article_reference:
     plugin: link_articles
     source: internal_article_links
