@@ -100,6 +100,10 @@ class ImageMediaBundle extends ProcessPluginBase {
     if (!$fid) {
       return $output;
     }
+    $mid = $this->get_media_mid($fid);
+    if ($mid) {
+      return array('target_id' => $mid);
+    }
     $caption = ($this->configuration['title']) ? $image->{$this->configuration['title']} : $image->caption;
     $entity = entity_create('media', array('bundle' => 'image'));
     $entity->image = array('target_id' => $fid);
@@ -110,6 +114,28 @@ class ImageMediaBundle extends ProcessPluginBase {
       $output = array('target_id' => $entity->id());
     }
     return $output;
+  }
+
+  /**
+   * Get Media mid based on the file fid.
+   *
+   * @param integer $fid
+   *   File fid.
+   *
+   * @return integer
+   *   Returns Media mid if present.
+   */
+  public function get_media_mid($fid) {
+    $fid = intval($fid);
+    $mid = '';
+    if (!$fid) {
+      return $mid;
+    }
+    $query = \Drupal::database()->select('media__image', 'p');
+    $query->addField('p', 'entity_id');
+    $query->condition('p.image_target_id', $fid);
+    $mid = $query->execute()->fetchField();
+    return $mid;
   }
 
   /**
