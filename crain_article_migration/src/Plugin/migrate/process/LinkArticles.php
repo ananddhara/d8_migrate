@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\migrate_basic_content\Plugin\migrate\process\LinkArticles.
+ * Contains \Drupal\crain_article_migration\Plugin\migrate\process\LinkArticles.
  */
 
-namespace Drupal\migrate_basic_content\Plugin\migrate\process;
+namespace Drupal\crain_article_migration\Plugin\migrate\process;
 
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\ProcessPluginBase;

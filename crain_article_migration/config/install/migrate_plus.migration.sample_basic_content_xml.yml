@@ -1,0 +1,89 @@
+id: basic_content_xml
+label: Basic Article content XML
+langcode: en
+status: true
+migration_group: migrate_crain_xml
+dependencies:
+  enforced:
+    module:
+      - crain_article_migration
+source:
+  plugin: url
+  data_fetcher_plugin: http
+  data_parser_plugin: xml
+  urls: public://private_files/article/story2017.xml
+  item_selector: '/articles/article' #xpath value
+  ids:
+    source_row_guid:
+      type: text
+  fields:
+    -
+      name: source_row_guid
+      label: 'Row guid'
+      selector: rowguid
+    -
+      name: source_title
+      label: 'Title of the article'
+      selector: title
+    -
+      name: source_summary
+      label: 'Summary of the article'
+      selector: summary
+    -
+      name: source_url
+      label: 'Url of the article'
+      selector: url
+    -
+      name: source_images
+      label: 'All Images'
+      selector: images
+    -
+      name: content_paragraph
+      label: 'Description of the content'
+      selector: paragraphs
+    -
+      name: internal_article_links
+      label : 'Get internal links'
+      selector: InternalLinks
+  constants:
+    bool_0: 0
+    bool_1: 1
+    uid_root: 1
+    full_html: full_html
+    source_base_path: 'public://private_files/'
+    destination_base_path: 'public://'
+
+process:
+  type:
+    plugin: default_value
+    default_value: articles
+  title: source_title
+  body/value: source_summary
+  body/format: constants/full_html
+  field_row_guid: source_row_guid
+  field_url:
+    -
+      plugin: trim
+      source: source_url
+  field_paragraph:
+    plugin: paragraphs_import
+    source: content_paragraph
+  field_image:
+    plugin: assign_image
+    source: source_images
+    alt: AltText
+    title: caption
+  field_image_bundle:
+    plugin: image_media_bundle
+    source: source_images
+    alt: AltText
+    title: caption
+  field_article_reference:
+    plugin: link_articles
+    source: internal_article_links
+    link_table: migrate_map_article_content_xml
+  uid:
+    plugin: default_value
+    default_value: 1
+destination:
+  plugin: 'entity:node'

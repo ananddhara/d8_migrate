@@ -6,7 +6,7 @@ migration_group: migrate_crain_xml
 dependencies:
   enforced:
     module:
-      - migrate_basic_content
+      - crain_article_migration
 source:
   plugin: url
   data_fetcher_plugin: http
@@ -56,7 +56,7 @@ source:
 process:
   type:
     plugin: default_value
-    default_value: article
+    default_value: articles
   title: source_title
   body/value: source_summary
   body/format: constants/full_html

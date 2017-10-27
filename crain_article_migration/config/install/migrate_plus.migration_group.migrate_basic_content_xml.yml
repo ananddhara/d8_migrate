@@ -3,7 +3,7 @@ status: true
 dependencies:
   enforced:
     module:
-      - migrate_basic_content
+      - crain_article_migration
 id: migrate_crain_xml
 label: 'Test xml migration for basic content'
 description: 'Sample code for basic content xml'
