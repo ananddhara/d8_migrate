@@ -26,6 +26,14 @@ source:
       label: 'Title of the article'
       selector: title
     -
+      name: source_sub_title
+      label: 'Sub-title of the article'
+      selector: subtitle
+    -
+      name: source_custom_fields
+      label: 'Custom field data'
+      selector: customfields
+    -
       name: source_summary
       label: 'Summary of the article'
       selector: summary
@@ -56,32 +64,19 @@ source:
 process:
   type:
     plugin: default_value
-    default_value: articles
+    default_value: article
   title: source_title
+  field_subhead: source_sub_title
+  field_seo_headline:
+    plugin: map_custom_fields
+    source: source_custom_fields
+    source_field: SEOHeadline
   body/value: source_summary
   body/format: constants/full_html
-  field_row_guid: source_row_guid
-  field_url:
-    -
-      plugin: trim
-      source: source_url
-  field_paragraph:
-    plugin: paragraphs_import
+  field_paragraph_body:
+    plugin: paragraphs_import_paragraph_body
     source: content_paragraph
-  field_image:
-    plugin: assign_image
-    source: source_images
-    alt: AltText
-    title: caption
-  field_image_bundle:
-    plugin: image_media_bundle
-    source: source_images
-    alt: AltText
-    title: caption
-  field_article_reference:
-    plugin: link_articles
-    source: internal_article_links
-    link_table: migrate_map_article_content_xml
+  field_row_guid: source_row_guid
   uid:
     plugin: default_value
     default_value: 1
