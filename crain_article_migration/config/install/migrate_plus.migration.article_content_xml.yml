@@ -30,6 +30,14 @@ source:
       label: 'Sub-title of the article'
       selector: subtitle
     -
+      name: source_author_information
+      label: 'Author information'
+      selector: AuthorInformation
+    -
+      name: source_byline_text
+      label: 'Author information'
+      selector: AuthorInformation/byline
+    -
       name: source_custom_fields
       label: 'Custom field data'
       selector: customfields
@@ -71,6 +79,9 @@ process:
     plugin: default_value
     default_value: article
   title: source_title
+  field_byline_text:
+    plugin: trim
+    source: source_byline_text
   field_subhead: source_sub_title
   field_seo_headline:
     plugin: map_custom_fields
@@ -88,7 +99,6 @@ process:
   field_access_control:
     plugin: vocabulary_access_control
     source: source_access_control    
-  field_row_guid: source_row_guid
   uid:
     plugin: default_value
     default_value: 1
