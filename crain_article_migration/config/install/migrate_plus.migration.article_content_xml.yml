@@ -82,6 +82,9 @@ process:
   field_byline_text:
     plugin: trim
     source: source_byline_text
+  field_byline:
+    plugin: map_author
+    source: source_author_information
   field_subhead: source_sub_title
   field_seo_headline:
     plugin: map_custom_fields
