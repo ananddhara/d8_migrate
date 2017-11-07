@@ -96,16 +96,19 @@ process:
     source_field: SEOHeadline
   body/value: source_summary
   body/format: constants/full_html
-  field_paragraph_body:
+  paragraph_body:
     plugin: paragraphs_import_paragraph_body
     source: content_paragraph
-  field_paragraph_factbox:
+  paragraph_factbox:
     plugin: paragraphs_import_factbox
     source: source_factbox
   field_row_guid: source_row_guid
-  field_photographs:
+  paragraph_photographs:
     plugin: paragraphs_import_paragraph_photo
-    source: source_images
+    source: content_paragraph
+  field_paragraphs:
+    plugin: paragraph_process_paragraphs
+    source: source_images    
   field_access_control:
     plugin: vocabulary_access_control
     source: source_access_control    
