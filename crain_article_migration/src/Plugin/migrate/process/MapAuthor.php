@@ -24,9 +24,10 @@ class MapAuthor extends ProcessPluginBase {
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
     $output = array();
     $staff_id = trim($value->StaffID);
-    echo $staff_id;
+    if (empty($staff_id)) {
+      return $output;
+    }
     $nid = $this->get_author_nid($staff_id);
-    echo $nid;
     if ($nid) {
       $output[] = array('target_id' => $nid);
     }
