@@ -27,6 +27,7 @@ class ParagraphProcessParagraphs extends ProcessPluginBase {
       $factbox = $row->getDestinationProperty('paragraph_factbox');
       $body = $row->getDestinationProperty('paragraph_body');
       $photographs = $row->getDestinationProperty('paragraph_photographs');
-      return array_merge($body,$factbox,$photographs);
+      $final = array_merge($body,$factbox,$photographs);
+      return $final;
     }
 }

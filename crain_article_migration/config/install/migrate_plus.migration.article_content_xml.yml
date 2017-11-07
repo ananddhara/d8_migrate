@@ -105,7 +105,7 @@ process:
   field_row_guid: source_row_guid
   paragraph_photographs:
     plugin: paragraphs_import_paragraph_photo
-    source: content_paragraph
+    source: source_images
   field_paragraphs:
     plugin: paragraph_process_paragraphs
     source: source_images    
