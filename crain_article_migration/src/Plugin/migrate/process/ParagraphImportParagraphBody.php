@@ -80,10 +80,9 @@ class ParagraphImportParagraphBody extends ProcessPluginBase {
     $text = (string)$paragraph->text;
     $para_values = array(
       'id' => NULL,
-      'type' => 'multi_paragraphs',
-      'field_title' => '',
-      'field_paragraph_subhead' => $paragraph_subhead,
-      'field_body' => [
+      'type' => 'body',
+      'field_subhead' => $paragraph_subhead,
+      'field_paragraph_body' => [
         'value' =>  $text,
         'format' => 'full_html',
       ],

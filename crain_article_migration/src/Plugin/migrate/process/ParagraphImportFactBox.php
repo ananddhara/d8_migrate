@@ -24,7 +24,6 @@ class ParagraphImportFactBox extends ProcessPluginBase {
   	 * {@inheritdoc}
   	 */
    	public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
-      print_r($value);
       // Process multiple and single paragraph.
       if (isset($value->factbox)) {
         return $this->manage_multiple_paragraph($value);
