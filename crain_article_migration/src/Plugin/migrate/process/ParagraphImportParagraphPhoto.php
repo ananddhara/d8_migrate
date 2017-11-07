@@ -46,11 +46,14 @@ class ParagraphImportParagraphPhoto extends ProcessPluginBase {
    *   Returns paragraph information.
    */
   public function manage_multiple_paragraph($paragraphs) {
-    $output = array();
+    $paragraphs_output = array();
     foreach ($paragraphs as $key => $paragraph ) {
-      $output[] = $this->attach_paragraph_info($paragraph);
+      $output = $this->attach_paragraph_info($paragraph);
+      if (isset($output['target_id'])) {
+        $paragraphs_output[] = $output;
+      }
     }
-    return $output;
+    return $paragraphs_output;
   }
 
   /**
@@ -63,9 +66,12 @@ class ParagraphImportParagraphPhoto extends ProcessPluginBase {
    *   Returns paragraph entity information.
    */
   public function manage_single_paragraph($paragraph) {
-    $paragraphs = [];
-    $paragraphs[] = $this->attach_paragraph_info($paragraph);
-    return $paragraphs;
+    $paragraphs_output = [];
+    $output = $this->attach_paragraph_info($paragraph);
+    if (isset($output['target_id'])) {
+      $paragraphs_output[] = $output;
+    }
+    return $paragraphs_output;
   }
 
   /**
@@ -80,6 +86,9 @@ class ParagraphImportParagraphPhoto extends ProcessPluginBase {
   public function attach_paragraph_info ($paragraph) {
     $name = (string)$paragraph->name;
     $name = str_ireplace(".image/", ".", $name);
+    if (empty($name)) {
+      return array();
+    }
     $paragraph->name = $name;
     $title = (string)$paragraph->AltText;
     $caption = (string)$paragraph->caption;

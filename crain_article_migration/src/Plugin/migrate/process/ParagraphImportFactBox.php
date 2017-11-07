@@ -43,11 +43,14 @@ class ParagraphImportFactBox extends ProcessPluginBase {
    *   Returns paragraph information.
    */
   public function manage_multiple_paragraph($paragraphs) {
-    $output = array();
+    $paragraphs_output = array();
     foreach ($paragraphs as $key => $paragraph ) {
-      $output[] = $this->attach_paragraph_info($paragraph);
+      $output = $this->attach_paragraph_info($paragraph);
+      if (isset($output['target_id'])) {
+        $paragraphs_output[] = $output;
+      }
     }
-    return $output;
+    return $paragraphs_output;
   }
 
   /**
@@ -61,7 +64,10 @@ class ParagraphImportFactBox extends ProcessPluginBase {
    */
   public function manage_single_paragraph($paragraph) {
     $paragraphs = [];
-    $paragraphs[] = $this->attach_paragraph_info($paragraph);
+    $output = $this->attach_paragraph_info($paragraph);
+    if (isset($output['target_id'])) {
+      $paragraphs[] = $output;
+    }
     return $paragraphs;
   }
 
@@ -77,6 +83,9 @@ class ParagraphImportFactBox extends ProcessPluginBase {
   public function attach_paragraph_info ($paragraph) {
     $title = (string)$paragraph->factbox_title;
     $text = (string)$paragraph->factbox_text;
+    if (empty($title) && empty($text)) {
+      return array();
+    }
     $para_values = array(
       'id' => NULL,
       'type' => 'factbox',
