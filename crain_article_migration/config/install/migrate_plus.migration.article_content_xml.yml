@@ -38,6 +38,10 @@ source:
       label: 'Author information'
       selector: AuthorInformation/byline
     -
+      name: source_factbox
+      label: 'Factbox information'
+      selector: factboxes
+    -
       name: source_custom_fields
       label: 'Custom field data'
       selector: customfields
@@ -95,6 +99,9 @@ process:
   field_paragraph_body:
     plugin: paragraphs_import_paragraph_body
     source: content_paragraph
+  field_paragraph_factbox:
+    plugin: paragraphs_import_factbox
+    source: source_factbox
   field_row_guid: source_row_guid
   field_photographs:
     plugin: paragraphs_import_paragraph_photo
